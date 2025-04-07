@@ -296,6 +296,3 @@ def cost_delete(v_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
-    # Triggering CI
-print("CI test trigger")
