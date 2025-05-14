@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: evms-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: evms
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./ev.sql:/docker-entrypoint-initdb.d/init.sql
+
+  web:
+    build: .
+    container_name: evms-web
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+    environment:
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_HOST: mysql
+      DB_NAME: evms
+    volumes:
+      - .:/app
+
+volumes:
+  mysql_data:
