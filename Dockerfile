@@ -1,17 +1,15 @@
-# Use an official Python runtime
-FROM python:3.10-slim
+FROM python:3.8-slim
 
-# Set work directory
 WORKDIR /app
+COPY . /app
 
-# Copy files
-COPY . .
+RUN pip install --no-cache-dir -r requirement.txt
 
-# Install dependencies
-RUN pip install --upgrade pip && pip install -r requirement.txt
-
-# Expose the port Flask runs on
 EXPOSE 5000
 
-# Run the Flask app
+ENV DB_USER=root
+ENV DB_PASSWORD=root
+ENV DB_HOST=mysql
+ENV DB_NAME=evms
+
 CMD ["python", "app.py"]
