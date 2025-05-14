@@ -11,7 +11,16 @@ app = Flask(__name__,static_folder='static',template_folder='templates')
 login_manager = LoginManager()
 login_manager.init_app(app)
 app.config['SECRET_KEY']='thisismylittlesecretkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:champ%40mysql@localhost:3306/ev'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:champ%40mysql@localhost:3306/ev'
+import os
+
+db_user = os.getenv('DB_USER', 'root')
+db_password = os.getenv('DB_PASSWORD', 'root')
+db_host = os.getenv('DB_HOST', 'localhost')
+db_name = os.getenv('DB_NAME', 'evms')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{db_user}:{db_password}@{db_host}:3306/{db_name}'
+
 db = SQLAlchemy(app)
 
 class User(UserMixin):
